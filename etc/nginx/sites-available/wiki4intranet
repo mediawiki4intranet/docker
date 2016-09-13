@@ -1,0 +1,36 @@
+server {
+    listen 80 default;
+    server_name wiki4intranet.local;
+
+    root /home/wiki4intranet/www;
+
+    location ~ /\.svn\/|\.bzr\/|\.hg\/|\.git\// {
+        deny all;
+    }
+
+    # pass to php7.0-fpm
+    location / {
+        index index.php;
+        try_files $uri @index;
+    }
+    location ~ \.php$ {
+        fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+        include fastcgi_params;
+    }
+    location @index {
+        fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $document_root/index.php;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+        include fastcgi_params;
+    }
+
+    location /images {
+        allow all;
+    }
+
+    location ~* ^/.*/.*\.(jpg|jpeg|gif|png|html|htm|ico)$ {
+        allow all;
+    }
+}

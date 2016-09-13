@@ -1,0 +1,11 @@
+[Unit]
+Description=Tika
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/java -jar /home/wiki4intranet/tika-app.jar -p 127.0.0.1:8072 -t -eutf-8
+User=nobody
+
+[Install]
+WantedBy=multi-user.target
