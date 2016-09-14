@@ -28,7 +28,7 @@ $wgLanguageCode = 'en';
 require_once 'extensions/SphinxSearchEngine/SphinxSearchEngine.php';
 $wgSphinxQL_index = $wgDBuser;
 $wgSphinxQL_port = '/var/run/sphinxsearch/searchd.sock';
-$wgSphinxSE_port = 3112;
+$wgSphinxSE_port = NULL;
 
 $egFavRateLogVisitors = true;
 $egFavRatePublicLogs = true;
