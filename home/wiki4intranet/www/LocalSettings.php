@@ -14,7 +14,11 @@ $wgDBpassword = 'mediawiki';
 $wgDBadminuser = $wgDBuser;
 $wgDBadminpassword = $wgDBpassword;
 $wgDBprefix = '';
+
+# Short article URLs without /wiki/ and without /index.php/
 $wgScriptPath = '';
+$wgUsePathInfo = substr($_SERVER['PHP_SELF'], 0, 15) == '/index.php';
+$wgArticlePath = "/$1";
 
 $wgLogo    = "$wgScriptPath/configs/logos/wiki4intranet-logo.png";
 $wgFavicon = "$wgScriptPath/configs/favicons/wiki4intranet.ico";
