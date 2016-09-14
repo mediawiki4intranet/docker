@@ -21,10 +21,12 @@ RUN service mysql start && echo "CREATE DATABASE mediawiki; \
     FLUSH PRIVILEGES;" | mysql --defaults-file=/etc/mysql/debian.cnf
 
 RUN wget http://wiki.4intra.net/public/tika-app.jar -O /home/wiki4intranet/tika-app.jar && \
-    rm -f /etc/nginx/sites-enabled/default && \
-    cd /home/wiki4intranet/www && git clone https://github.com/mediawiki4intranet/configs && \
-    cd configs && php repo.php install mediawiki4intranet ro && cd .. && \
-    chown www-data:www-data images
+    rm -f /etc/nginx/sites-enabled/default
+
+RUN cd /home/wiki4intranet/www && \
+    mkdir -p images && chown www-data:www-data images && \
+    git clone https://github.com/mediawiki4intranet/configs && \
+    cd configs && php repo.php install mediawiki4intranet ro
 
 RUN service sphinxsearch start && \
     service mysql start && \
@@ -33,7 +35,7 @@ RUN service sphinxsearch start && \
     php maintenance/patchSql.php maintenance/tables.sql && \
     php maintenance/update.php --quick
 
-CMD service tika start && service sphinxsearch start && service php7.0-fpm start && service mysql start && service nginx start
+CMD service tika start && service sphinxsearch start && service php7.0-fpm start && service mysql start && service nginx start && tail -fn0 /dev/null
 
 EXPOSE 80
 

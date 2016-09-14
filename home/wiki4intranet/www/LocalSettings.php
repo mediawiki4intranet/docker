@@ -18,7 +18,7 @@ $wgScriptPath = '/';
 
 require_once 'extensions/SphinxSearchEngine/SphinxSearchEngine.php';
 $wgSphinxQL_index = $wgDBuser;
-$wgSphinxQL_port = '/var/run/sphinx/searchd.sock';
+$wgSphinxQL_port = '/var/run/sphinxsearch/searchd.sock';
 $wgSphinxSE_port = 3112;
 
 $egFavRateLogVisitors = true;
