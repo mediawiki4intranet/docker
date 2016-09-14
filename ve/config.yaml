@@ -1,0 +1,68 @@
+worker_heartbeat_timeout: 300000
+
+logging:
+    level: info
+
+#metrics:
+#    type: log
+
+services:
+  - module: src/lib/index.js
+    entrypoint: apiServiceWorker
+    conf:
+        # Set your own user-agent string
+        # Otherwise, defaults to:
+        #   'Parsoid/<current-version-defined-in-package.json>'
+        #userAgent: 'My-User-Agent-String'
+
+        mwApis:
+        - uri: 'http://localhost/api.php'
+          domain: 'localhost'  # optional
+          #proxy:
+          #    uri: 'http://my.proxy:1234/'
+          #    headers:  # optional
+          #        'X-Forwarded-Proto': 'https'
+
+        # We pre-define wikipedias as 'enwiki', 'dewiki' etc. Similarly
+        # for other projects: 'enwiktionary', 'enwikiquote', 'enwikibooks',
+        # 'enwikivoyage' etc.
+        # The default for this is false. Uncomment the line below if you want
+        # to load WMF's config for wikipedias, etc.
+        #loadWMF: true
+
+        # A default proxy to connect to the API endpoints.
+        # Default: undefined (no proxying).
+        # Overridden by per-wiki proxy config in setMwApi.
+        #defaultAPIProxyURI: 'http://proxy.example.org:8080'
+
+        # Enable debug mode (prints extra debugging messages)
+        #debug: true
+
+        # Use the PHP preprocessor to expand templates via the MW API (default true)
+        #usePHPPreProcessor: false
+
+        # Use selective serialization (default false)
+        #useSelser: true
+
+        # Allow cross-domain requests to the API (default '*')
+        # Sets Access-Control-Allow-Origin header
+        # disable:
+        #allowCORS: false
+        # restrict:
+        #allowCORS: 'some.domain.org'
+
+        # Allow override of port/interface:
+        serverPort: 8142
+        serverInterface: '127.0.0.1'
+
+        # The URL of your LintBridge API endpoint
+        #linterAPI: 'http://lintbridge.wmflabs.org/add'
+
+        # Require SSL certificates to be valid (default true)
+        # Set to false when using self-signed SSL certificates
+        #strictSSL: false
+
+        # Use a different server for CSS style modules.
+        # Leaving it undefined (the default) will use the same URI as the MW API,
+        # changing api.php for load.php.
+        #modulesLoadURI: 'http://example.org/load.php'

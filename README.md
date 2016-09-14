@@ -11,13 +11,20 @@ install it is by using Docker.
 
 To run Mediawiki4Intranet using Docker, clone this repository, go inside it and execute:
 
-    docker build -t mediawiki4intranet .
+    docker build -t mediawiki4intranet/basic .
 
     docker run --name mw4i -p 8077:80 -v /home/wiki4intranet/data -t -d mediawiki4intranet
 
 Then point your browser to http://localhost:8077
 
 Use "WikiSysop" login name and "MediaWiki4Intranet" password to authorize.
+
+# VisualEditor
+
+Basic Mediawiki4Intranet image does not include VisualEditor. To build docker image with
+VisualEditor, run:
+
+    docker build -t mediawiki4intranet/ve .
 
 # Docker cheatsheet
 
