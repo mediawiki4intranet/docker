@@ -6,7 +6,10 @@ http://wiki.4intra.net/Mediawiki4Intranet
 
 # Run it with Docker
 
-To run Mediawiki4Intranet using Docker, clone this repository and execute:
+Mediawiki4Intranet requires a lot of additional software, so the simplest way to
+install it is by using Docker.
+
+To run Mediawiki4Intranet using Docker, clone this repository, go inside it and execute:
 
     docker build -t mediawiki4intranet .
 
@@ -21,7 +24,10 @@ Use "WikiSysop" login name and "MediaWiki4Intranet" password to authorize.
 Some basic commands to work with the resulting container:
 
 * list running containers: `docker ps`
+* list all containers: `docker ps -a`
 * list system images: `docker images`
 * stop container: `docker stop mw4i`
 * start container again: `docker start mw4i`
 * run shell in the container: `docker exec -it mw4i bash`
+* remove container: `docker rm <container_id>`
+* remove image: `docker rmi <image_id>`
