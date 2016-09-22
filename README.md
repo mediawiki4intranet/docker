@@ -24,7 +24,7 @@ Use "WikiSysop" login name and "MediaWiki4Intranet" password to authorize.
 Basic Mediawiki4Intranet image does not include VisualEditor. To build docker image with
 VisualEditor, run:
 
-    docker build -t mediawiki4intranet/ve .
+    docker build -t mediawiki4intranet/ve -f ve.Dockerfile .
 
 # Docker cheatsheet
 
