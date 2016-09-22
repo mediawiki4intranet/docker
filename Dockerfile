@@ -51,5 +51,4 @@ EXPOSE 80
 
 VOLUME /home/wiki4intranet/data
 
-# need https://github.com/openid/php-openid (removed from PEAR for some reason)
 # need sendmail... what to do with it?

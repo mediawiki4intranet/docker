@@ -11,7 +11,7 @@ install it is by using Docker.
 
 To run Mediawiki4Intranet using Docker, clone this repository, go inside it and execute:
 
-    docker build -t mediawiki4intranet/basic .
+    docker build -t mediawiki4intranet .
 
     docker run --name mw4i -p 8077:80 -v /home/wiki4intranet/data -t -d mediawiki4intranet
 
@@ -38,3 +38,6 @@ Some basic commands to work with the resulting container:
 * run shell in the container: `docker exec -it mw4i bash`
 * remove container: `docker rm <container_id>`
 * remove image: `docker rmi <image_id>`
+
+P.S: If you get "Cannot connect to the Docker daemon. Is the docker daemon running on this host?" error,
+add your system user into `docker` group **and relogin**!
