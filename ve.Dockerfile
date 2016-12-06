@@ -15,4 +15,5 @@ ADD ve/LocalSettings.php /home/wiki4intranet/www/LocalSettings.php
 CMD export LC_ALL=ru_RU.UTF-8 LANG=ru_RU.UTF-8; service tika start && service sphinxsearch start && \
     service php7.0-fpm start && service mysql start && service nginx start && \
     start-stop-daemon -S -b --pidfile /var/run/parsoid.pid -d /home/wiki4intranet/www/parsoid-deploy -m -x /usr/bin/nodejs -- src/bin/server.js && \
+    php maintenance/update.php --quick && \
     tail -fn0 /dev/null

@@ -10,8 +10,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::=
     netpbm librsvg2-bin locales djvulibre-bin texlive-base texlive-extra-utils ffmpeg \
     dia graphviz gnuplot plotutils umlet default-jre diffutils imagemagick sphinxsearch \
     nginx php7.0-fpm php7.0-cli php7.0-json php7.0-opcache php7.0-mbstring php7.0-curl php7.0-gd \
-    php7.0-intl php7.0-mysql php7.0-xml php7.0-zip php-imagick php-apcu php-apcu-bc php-mail php-net-smtp mariadb-server \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+    php7.0-intl php7.0-mysql php7.0-xml php7.0-zip php-imagick php-apcu php-apcu-bc php-mail php-net-smtp mariadb-server
 
 ADD etc /etc
 ADD home /home
@@ -30,6 +29,13 @@ RUN mkdir -p /home/wiki4intranet/data/images && \
     mv /var/lib/sphinxsearch /home/wiki4intranet/data/sphinxsearch && \
     ln -s /home/wiki4intranet/data/mysql /var/lib/mysql && \
     ln -s /home/wiki4intranet/data/sphinxsearch /var/lib/sphinxsearch && \
+    mkdir /home/wiki4intranet/data/logs && \
+    mv /var/log/nginx /home/wiki4intranet/data/logs && \
+    ln -s /home/wiki4intranet/data/logs/nginx /var/log/nginx && \
+    mv /var/log/mysql /home/wiki4intranet/data/logs && \
+    ln -s /home/wiki4intranet/data/logs/mysql /var/log/mysql && \
+    mv /var/log/sphinxsearch /home/wiki4intranet/data/logs && \
+    ln -s /home/wiki4intranet/data/logs/sphinxsearch /var/log/sphinxsearch && \
     cd /home/wiki4intranet/www && \
     ln -s /home/wiki4intranet/data/images && \
     git clone https://github.com/mediawiki4intranet/configs && \
@@ -44,8 +50,23 @@ RUN service sphinxsearch start && \
     php maintenance/createAndPromote.php --bureaucrat --sysop WikiSysop MediaWiki4Intranet && \
     chown www-data /home/wiki4intranet/debug.log
 
+# Update image incrementally
+
+ADD mediawiki4intranet-version /etc/mediawiki4intranet-version
+
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confdef" \
+    -o Dpkg::Options::="--force-confold" dist-upgrade \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN cd /home/wiki4intranet/www/configs && \
+    php repo.php update
+
+# Run maintenance/update.php --quick after each startup to handle container image updates
+
 CMD export LC_ALL=ru_RU.UTF-8 LANG=ru_RU.UTF-8; service tika start && service sphinxsearch start && \
-    service php7.0-fpm start && service mysql start && service nginx start && tail -fn0 /dev/null
+    service php7.0-fpm start && service mysql start && service nginx start && \
+    php maintenance/update.php --quick && \
+    tail -fn0 /dev/null
 
 EXPOSE 80
 
