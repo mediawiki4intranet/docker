@@ -11,20 +11,39 @@ install it is by using Docker.
 
 To run Mediawiki4Intranet using Docker, clone this repository, go inside it and execute:
 
-    docker build -t mediawiki4intranet .
+    sh build.sh
 
-    docker run --name mw4i -p 8077:80 -v /home/wiki4intranet/data -t -d mediawiki4intranet
+This will build Docker images for mediawiki4intranet. Then create a container:
+
+    docker run --name mw4i -p 8077:80 -t -d mediawiki4intranet
+
+or, if you want VisualEditor:
+
+    docker run --name mw4i -p 8077:80 -t -d mediawiki4intranet/ve
 
 Then point your browser to http://localhost:8077
 
 Use "WikiSysop" login name and "MediaWiki4Intranet" password to authorize.
 
-# VisualEditor
+# Email delivery and overriding configuration in general
 
-Basic Mediawiki4Intranet image does not include VisualEditor. To build docker image with
-VisualEditor, run:
+You need to configure SMTP to allow MediaWiki to deliver e-mails (user account confirmation,
+password reset and etc). To do so you need to add the following into /home/wiki4intranet/www/LocalSettings.php:
 
-    docker build -t mediawiki4intranet/ve -f ve.Dockerfile .
+    $wgSMTP = array(
+        'host' => '<SMTP server>',
+        'port' => 25,
+        'auth' => false, // or true if you set username&password
+        'username' => '<SMTP username>',
+        'password' => '<SMTP password>',
+    );
+
+You'll probably also want to change other settings: sitename, logo or favicon, or maybe you'll
+want to install additional extensions, or create multiple wikis in one shared container.
+
+**The recommended way** to do all these configuration tasks is creating your own Dockerfile
+based on `mediawiki4intranet` or `mediawiki4intranet/ve` images with all your configuration and
+software changes, build your own Docker image and run container based on it.
 
 # Docker cheatsheet
 

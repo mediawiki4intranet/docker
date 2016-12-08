@@ -9,8 +9,8 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::=
     -o Dpkg::Options::="--force-confold" install -y wget git zip unzip poppler-utils \
     netpbm librsvg2-bin locales djvulibre-bin texlive-base texlive-extra-utils ffmpeg \
     dia graphviz gnuplot plotutils umlet default-jre diffutils imagemagick sphinxsearch \
-    nginx php7.0-fpm php7.0-cli php7.0-json php7.0-opcache php7.0-mbstring php7.0-curl php7.0-gd \
-    php7.0-intl php7.0-mysql php7.0-xml php7.0-zip php-imagick php-apcu php-apcu-bc php-mail php-net-smtp mariadb-server
+    mc nginx php7.0-fpm php7.0-cli php7.0-json php7.0-opcache php7.0-mbstring php7.0-curl php7.0-gd \
+    php7.0-intl php7.0-mysql php7.0-xml php7.0-zip php-imagick php-apcu php-apcu-bc php-pear php-mail php-net-smtp mariadb-server
 
 ADD etc /etc
 ADD home /home
@@ -39,6 +39,8 @@ RUN mkdir -p /home/wiki4intranet/data/images && \
     cd /home/wiki4intranet/www && \
     ln -s /home/wiki4intranet/data/images && \
     git clone https://github.com/mediawiki4intranet/configs && \
+    touch /home/wiki4intranet/data/debug.log && \
+    chown www-data /home/wiki4intranet/data/debug.log && \
     cd configs && php repo.php install mediawiki4intranet ro
 
 RUN service sphinxsearch start && \
@@ -47,29 +49,21 @@ RUN service sphinxsearch start && \
     cd /home/wiki4intranet/www && \
     php maintenance/patchSql.php maintenance/tables.sql && \
     php maintenance/update.php --quick && \
-    php maintenance/createAndPromote.php --bureaucrat --sysop WikiSysop MediaWiki4Intranet && \
-    chown www-data /home/wiki4intranet/debug.log
+    php maintenance/createAndPromote.php --bureaucrat --sysop WikiSysop MediaWiki4Intranet
 
 # Update image incrementally
 
 ADD mediawiki4intranet-version /etc/mediawiki4intranet-version
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confdef" \
-    -o Dpkg::Options::="--force-confold" dist-upgrade \
+    -o Dpkg::Options::="--force-confold" dist-upgrade -y \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN cd /home/wiki4intranet/www/configs && \
     php repo.php update
 
-# Run maintenance/update.php --quick after each startup to handle container image updates
-
-CMD export LC_ALL=ru_RU.UTF-8 LANG=ru_RU.UTF-8; service tika start && service sphinxsearch start && \
-    service php7.0-fpm start && service mysql start && service nginx start && \
-    php maintenance/update.php --quick && \
-    tail -fn0 /dev/null
+CMD /home/start.sh
 
 EXPOSE 80
 
 VOLUME /home/wiki4intranet/data
-
-# need sendmail... what to do with it?

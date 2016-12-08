@@ -33,5 +33,5 @@ $wgSphinxSE_port = NULL;
 $egFavRateLogVisitors = true;
 $egFavRatePublicLogs = true;
 
-//$wgDebugLogFile = '/home/wiki4intranet/debug.log';
+//$wgDebugLogFile = '/home/wiki4intranet/data/debug.log';
 $wgShowSQLErrors = true;
