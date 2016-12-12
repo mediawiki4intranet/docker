@@ -65,5 +65,3 @@ RUN cd /home/wiki4intranet/www/configs && \
 CMD /home/start.sh
 
 EXPOSE 80
-
-VOLUME /home/wiki4intranet/data

@@ -15,11 +15,11 @@ To run Mediawiki4Intranet using Docker, clone this repository, go inside it and 
 
 This will build Docker images for mediawiki4intranet. Then create a container:
 
-    docker run --name mw4i -p 8077:80 -t -d mediawiki4intranet
+    docker run --name mw4i -p 8077:80 -v /home/wiki4intranet/data -t -d mediawiki4intranet
 
 or, if you want VisualEditor:
 
-    docker run --name mw4i -p 8077:80 -t -d mediawiki4intranet/ve
+    docker run --name mw4i -p 8077:80 -v /home/wiki4intranet/data -t -d mediawiki4intranet/ve
 
 Then point your browser to http://localhost:8077
 
