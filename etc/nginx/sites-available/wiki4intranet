@@ -30,7 +30,7 @@ server {
         allow all;
     }
 
-    location ~* ^/.*/.*\.(jpg|jpeg|gif|png|html|htm|ico)$ {
+    location ~* ^/(configs|extensions|resources|skins)/.*\.(jpg|jpeg|gif|png|html|htm|ico)$ {
         allow all;
     }
 }
