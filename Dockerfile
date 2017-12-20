@@ -7,7 +7,7 @@ ADD etc/locale.gen /etc/locale.gen
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confdef" \
     -o Dpkg::Options::="--force-confold" install -y wget git zip unzip poppler-utils \
-    netpbm librsvg2-bin locales djvulibre-bin texlive-base texlive-extra-utils ffmpeg \
+    netpbm librsvg2-bin libvisio-tools locales djvulibre-bin texlive-base texlive-extra-utils ffmpeg \
     dia graphviz gnuplot plotutils umlet default-jre diffutils imagemagick sphinxsearch \
     mc nginx php7.0-fpm php7.0-cli php7.0-json php7.0-opcache php7.0-mbstring php7.0-curl php7.0-gd \
     php7.0-intl php7.0-mysql php7.0-xml php7.0-zip php-imagick php-apcu php-apcu-bc php-pear php-mail php-net-smtp mariadb-server
