@@ -6,7 +6,7 @@ ADD etc/apt/apt.conf /etc/apt/apt.conf
 ADD etc/locale.gen /etc/locale.gen
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confdef" \
-    -o Dpkg::Options::="--force-confold" install -y wget git zip unzip poppler-utils \
+    -o Dpkg::Options::="--force-confold" install -y cron wget git zip unzip poppler-utils \
     netpbm librsvg2-bin libvisio-tools locales djvulibre-bin texlive-base texlive-extra-utils ffmpeg \
     dia graphviz gnuplot plotutils umlet default-jre diffutils imagemagick sphinxsearch \
     mc nginx php7.0-fpm php7.0-cli php7.0-json php7.0-opcache php7.0-mbstring php7.0-curl php7.0-gd \
@@ -23,24 +23,24 @@ RUN service mysql start && echo "CREATE DATABASE mediawiki; \
 RUN wget http://wiki.4intra.net/public/tika-app.jar -O /home/wiki4intranet/tika-app.jar && \
     rm -f /etc/nginx/sites-enabled/default
 
-RUN mkdir -p /home/wiki4intranet/data/images && \
-    chown www-data:www-data /home/wiki4intranet/data/images && \
-    mv /var/lib/mysql /home/wiki4intranet/data/mysql && \
-    mv /var/lib/sphinxsearch /home/wiki4intranet/data/sphinxsearch && \
-    ln -s /home/wiki4intranet/data/mysql /var/lib/mysql && \
-    ln -s /home/wiki4intranet/data/sphinxsearch /var/lib/sphinxsearch && \
-    mkdir /home/wiki4intranet/data/logs && \
-    mv /var/log/nginx /home/wiki4intranet/data/logs && \
-    ln -s /home/wiki4intranet/data/logs/nginx /var/log/nginx && \
-    mv /var/log/mysql /home/wiki4intranet/data/logs && \
-    ln -s /home/wiki4intranet/data/logs/mysql /var/log/mysql && \
-    mv /var/log/sphinxsearch /home/wiki4intranet/data/logs && \
-    ln -s /home/wiki4intranet/data/logs/sphinxsearch /var/log/sphinxsearch && \
+RUN mkdir -p /home/data/images && \
+    chown www-data:www-data /home/data/images && \
+    mv /var/lib/mysql /home/data/mysql && \
+    mv /var/lib/sphinxsearch /home/data/sphinxsearch && \
+    ln -s /home/data/mysql /var/lib/mysql && \
+    ln -s /home/data/sphinxsearch /var/lib/sphinxsearch && \
+    mkdir /home/data/logs && \
+    mv /var/log/nginx /home/data/logs && \
+    ln -s /home/data/logs/nginx /var/log/nginx && \
+    mv /var/log/mysql /home/data/logs && \
+    ln -s /home/data/logs/mysql /var/log/mysql && \
+    mv /var/log/sphinxsearch /home/data/logs && \
+    ln -s /home/data/logs/sphinxsearch /var/log/sphinxsearch && \
     cd /home/wiki4intranet/www && \
-    ln -s /home/wiki4intranet/data/images && \
+    ln -s /home/data/images && \
     git clone https://github.com/mediawiki4intranet/configs && \
-    touch /home/wiki4intranet/data/debug.log && \
-    chown www-data /home/wiki4intranet/data/debug.log && \
+    touch /home/data/debug.log && \
+    chown www-data /home/data/debug.log && \
     cd configs && php repo.php install mediawiki4intranet ro
 
 RUN service sphinxsearch start && \
