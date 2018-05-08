@@ -9,8 +9,9 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::=
     -o Dpkg::Options::="--force-confold" install -y cron wget git zip unzip poppler-utils \
     netpbm librsvg2-bin libvisio-tools locales djvulibre-bin texlive-base texlive-extra-utils ffmpeg \
     dia graphviz gnuplot plotutils umlet default-jre diffutils imagemagick sphinxsearch \
-    mc nginx php7.0-fpm php7.0-cli php7.0-json php7.0-opcache php7.0-mbstring php7.0-curl php7.0-gd \
-    php7.0-intl php7.0-mysql php7.0-xml php7.0-zip php-imagick php-apcu php-apcu-bc php-pear php-mail php-net-smtp mariadb-server
+    mc nginx php7.1-fpm php7.1-cli php7.1-json php7.1-opcache php7.1-mbstring php7.1-curl php7.1-gd \
+    php7.1-intl php7.1-mysql php7.1-xml php7.1-zip php-imagick php-apcu php-pear php-mail php-net-smtp mariadb-server && \
+    apt-get -y clean && rm -rf /var/lib/apt/lists/*
 
 ADD etc /etc
 ADD home /home

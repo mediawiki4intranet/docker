@@ -4,7 +4,7 @@ export LC_ALL=ru_RU.UTF-8 LANG=ru_RU.UTF-8
 
 service tika start
 service sphinxsearch start
-service php7.0-fpm start
+service php7.1-fpm start
 service mysql start
 service nginx start
 
