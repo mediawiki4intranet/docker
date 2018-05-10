@@ -2,9 +2,11 @@ FROM mediawiki4intranet
 
 MAINTAINER Vitaliy Filippov
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confdef" \
-    -o Dpkg::Options::="--force-confold" install -y nodejs npm \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+# Add the following line if you need npm:
+#    (curl -L https://deb.nodesource.com/setup_8.x | bash -) && \
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN cd /home/wiki4intranet/www/configs && \
     php repo.php update mediawiki4intranet-with-ve ro && \
