@@ -8,19 +8,19 @@ server {
         deny all;
     }
 
-    # pass to php7.1-fpm
+    # pass to php7.3-fpm
     location / {
         index index.php;
         try_files $uri @index;
     }
     location ~ \.php$ {
-        fastcgi_pass unix:/var/run/php/php7.1-fpm.sock;
+        fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         fastcgi_param PATH_INFO $fastcgi_path_info;
         include fastcgi_params;
     }
     location @index {
-        fastcgi_pass unix:/var/run/php/php7.1-fpm.sock;
+        fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
         fastcgi_param SCRIPT_FILENAME $document_root/index.php;
         fastcgi_param PATH_INFO $fastcgi_path_info;
         include fastcgi_params;
