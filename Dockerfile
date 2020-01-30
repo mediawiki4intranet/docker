@@ -3,6 +3,7 @@ FROM debian:sid
 MAINTAINER Vitaliy Filippov
 
 ADD etc/apt/apt.conf /etc/apt/apt.conf
+ADD etc/apt/sources.list /etc/apt/sources.list
 ADD etc/locale.gen /etc/locale.gen
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confdef" \
