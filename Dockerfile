@@ -23,9 +23,11 @@ RUN service mysql start && echo "CREATE DATABASE mediawiki; \
     FLUSH PRIVILEGES;" | mysql --defaults-file=/etc/mysql/debian.cnf
 
 RUN wget http://wiki.4intra.net/public/tika-app.jar -O /home/wiki4intranet/tika-app.jar && \
-    rm -f /etc/nginx/sites-enabled/default
+    wget http://wiki.4intra.net/public/draw.war -O /home/wiki4intranet/draw.war && \
+    wget https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-runner/9.4.27.v20200227/jetty-runner-9.4.27.v20200227.jar -O /home/wiki4intranet/jetty-runner.jar
 
-RUN mkdir -p /home/data/images && \
+RUN rm -f /etc/nginx/sites-enabled/default && \
+    mkdir -p /home/data/images && \
     chown www-data:www-data /home/data/images && \
     mv /var/lib/mysql /home/data/mysql && \
     mv /var/lib/sphinxsearch /home/data/sphinxsearch && \

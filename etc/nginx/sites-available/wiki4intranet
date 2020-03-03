@@ -30,6 +30,11 @@ server {
         allow all;
     }
 
+    location /draw-io-service/ {
+        proxy_pass http://localhost:8073/;
+        include proxy_params;
+    }
+
     location ~* ^/(configs|extensions|resources|skins)/.*\.(jpg|jpeg|gif|png|html|htm|ico)$ {
         allow all;
     }

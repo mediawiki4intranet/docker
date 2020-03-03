@@ -1,17 +1,17 @@
 #!/bin/sh
 ### BEGIN INIT INFO
-# Provides:          tika
+# Provides:          draw.io
 # Required-Start:    $local_fs $remote_fs $network $syslog
 # Required-Stop:     $local_fs $remote_fs $network $syslog
 # Should-Start:
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: Start/stop Tika service
+# Short-Description: Start/stop local draw.io service
 ### END INIT INFO
 
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
-NAME=tika
-PIDFILE=/var/run/tika.pid
+NAME=draw.io
+PIDFILE=/var/run/draw.io.pid
 
 . /lib/lsb/init-functions
 
@@ -20,12 +20,12 @@ export LC_ALL=en_US.UTF-8
 
 case "$1" in
     start)
-        log_daemon_msg "Starting Tika server" $NAME
-        start-stop-daemon -S -b --pidfile $PIDFILE -m -x /usr/bin/java -- -jar /home/wiki4intranet/tika-app.jar -p 127.0.0.1:8072 -t -eutf-8
+        log_daemon_msg "Starting draw.io service" $NAME
+        start-stop-daemon -S -b --pidfile $PIDFILE -m -x /usr/bin/java -- -jar /home/wiki4intranet/jetty-runner.jar --host 127.0.0.1 --port 8073 /home/wiki4intranet/draw.war
         log_end_msg $?
         ;;
     stop)
-        log_daemon_msg "Stopping Tika server" $NAME
+        log_daemon_msg "Stopping draw.io service" $NAME
         if [ -e $PIDFILE ]; then
             kill `cat $PIDFILE` 2>/dev/null >/dev/null && rm $PIDFILE
             log_end_msg $?
@@ -35,9 +35,9 @@ case "$1" in
         fi
         ;;
     restart|force-reload)
-        log_daemon_msg "Restarting Tika server" $NAME
+        log_daemon_msg "Restarting draw.io service" $NAME
         [ -e $PIDFILE ] && kill `cat $PIDFILE` 2>/dev/null >/dev/null && sleep 1 && rm $PIDFILE
-        start-stop-daemon -S -b --pidfile $PIDFILE -m -x /usr/bin/java -- -jar /home/wiki4intranet/tika-app.jar -p 127.0.0.1:8072 -t -eutf-8
+        start-stop-daemon -S -b --pidfile $PIDFILE -m -x /usr/bin/java -- -jar /home/wiki4intranet/jetty-runner.jar --host 127.0.0.1 --port 8073 /home/wiki4intranet/draw.war
         log_end_msg $?
         ;;
     *)

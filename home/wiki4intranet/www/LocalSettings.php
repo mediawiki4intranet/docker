@@ -35,3 +35,5 @@ $egFavRatePublicLogs = true;
 
 //$wgDebugLogFile = '/home/data/debug.log';
 $wgShowSQLErrors = true;
+
+$wgDrawioEditorServiceUrl = '/draw-io-service';
