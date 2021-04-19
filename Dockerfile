@@ -10,15 +10,15 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::=
     -o Dpkg::Options::="--force-confold" install -y cron wget git zip unzip poppler-utils \
     netpbm librsvg2-bin libvisio-tools locales djvulibre-bin texlive-base texlive-extra-utils texlive-latex-extra ffmpeg dvipng \
     dia graphviz gnuplot plotutils umlet default-jre diffutils imagemagick sphinxsearch ca-certificates gnupg2 \
-    mc less nginx php7.3-fpm php7.3-cli php7.3-json php7.3-opcache php7.3-mbstring php7.3-curl php7.3-gd \
-    php7.3-intl php7.3-mysql php7.3-xml php7.3-zip php-imagick php-apcu php-pear php-mail-mime php-mail php-net-smtp mariadb-server && \
+    mc less nginx php7.4-fpm php7.4-cli php7.4-json php7.4-opcache php7.4-mbstring php7.4-curl php7.4-gd \
+    php7.4-intl php7.4-mysql php7.4-xml php7.4-zip php-imagick php-apcu php-pear php-mail-mime php-mail php-net-smtp mariadb-server && \
     apt-get -y clean && rm -rf /var/lib/apt/lists/*
 
 ADD etc /etc
 ADD home /home
 ADD usr /usr
 
-RUN service mysql start && echo "CREATE DATABASE mediawiki; \
+RUN service mariadb start && echo "CREATE DATABASE mediawiki; \
     GRANT ALL PRIVILEGES ON mediawiki.* TO mediawiki@localhost IDENTIFIED BY 'mediawiki'; \
     FLUSH PRIVILEGES;" | mysql --defaults-file=/etc/mysql/debian.cnf
 
@@ -48,7 +48,7 @@ RUN rm -f /etc/nginx/sites-enabled/default && \
     cd configs && php repo.php install mediawiki4intranet ro
 
 RUN service sphinxsearch start && \
-    service mysql start && \
+    service mariadb start && \
     service tika start && \
     cd /home/wiki4intranet/www && \
     php maintenance/patchSql.php maintenance/tables.sql && \
