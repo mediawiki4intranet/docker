@@ -1,4 +1,4 @@
-FROM debian:sid
+FROM debian:bullseye
 
 MAINTAINER Vitaliy Filippov
 
