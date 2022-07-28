@@ -5,7 +5,7 @@ export LC_ALL=ru_RU.UTF-8 LANG=ru_RU.UTF-8
 service draw.io start
 service tika start
 service sphinxsearch start
-service php7.3-fpm start
+service php7.4-fpm start
 service mysql start
 service nginx start
 
